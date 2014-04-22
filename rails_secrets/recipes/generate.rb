@@ -9,7 +9,6 @@ node[:deploy].each do |application, deploy|
     action :nothing
   end
 
-
   deploy = node[:deploy][:application]
 
   template "#{app_root}/config/secrets.yml" do
@@ -22,13 +21,14 @@ node[:deploy].each do |application, deploy|
       :secret => deploy[:secret],
       :environment => deploy[:rails_env]
     )
-    log "rails_secrets"
-    log "deploy[:secret].present?: #{deploy[:secret].present?"
-    log "File.directory?(#{deploy[:deploy_to]}/shared/config/): #{File.directory?(\"#{deploy[:deploy_to]}/shared/config/\")}"
-
+    
     notifies :run, "execute[restart Rails app #{application}]"
 
     only_if do
+      log "rails_secrets"
+      log "deploy[:secret].present?: #{deploy[:secret].present?"
+      log "File.directory?(#{deploy[:deploy_to]}/shared/config/): #{File.directory?(\"#{deploy[:deploy_to]}/shared/config/\")}"
+
       deploy[:secret].present? && File.directory?("#{deploy[:deploy_to]}/shared/config/")
     end
   end
