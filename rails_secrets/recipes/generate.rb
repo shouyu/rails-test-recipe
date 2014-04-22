@@ -9,7 +9,7 @@ node[:deploy].each do |application, deploy|
     action :nothing
   end
 
-  deploy = node[:deploy][:application]
+  deploy = node[:deploy][application]
 
   template "#{app_root}/config/secrets.yml" do
     source "secrets.yml.erb"
