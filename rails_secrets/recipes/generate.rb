@@ -11,7 +11,7 @@ node[:deploy].each do |application, deploy|
 
   deploy = node[:deploy][application]
 
-  template "#{deploy[:deploy_to]}/shared/config/secrets.yml" do
+  template "#{deploy[:deploy_to]}/current/config/secrets.yml" do
     source "secrets.yml.erb"
     cookbook "rails_secrets"
     mode "0660"
@@ -25,7 +25,7 @@ node[:deploy].each do |application, deploy|
     notifies :run, "execute[restart Rails app #{application}]"
 
     only_if do
-      deploy[:secret].present? && File.directory?("#{deploy[:deploy_to]}/shared/config/")
+      deploy[:secret].present? && File.directory?("#{deploy[:deploy_to]}/current/config/")
     end
   end
 end
