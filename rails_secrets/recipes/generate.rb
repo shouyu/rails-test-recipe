@@ -11,7 +11,7 @@ node[:deploy].each do |application, deploy|
 
   deploy = node[:deploy][application]
 
-  template "#{deploy[:deploy_to]}/config/secrets.yml" do
+  template "#{deploy[:deploy_to]}/shared/config/secrets.yml" do
     source "secrets.yml.erb"
     cookbook "rails_secrets"
     mode "0660"
