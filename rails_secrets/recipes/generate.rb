@@ -25,10 +25,6 @@ node[:deploy].each do |application, deploy|
     notifies :run, "execute[restart Rails app #{application}]"
 
     only_if do
-      log "rails_secrets"
-      log "deploy[:secret].present?: #{deploy[:secret].present?"
-      log "File.directory?(#{deploy[:deploy_to]}/shared/config/): #{File.directory?(\"#{deploy[:deploy_to]}/shared/config/\")}"
-
       deploy[:secret].present? && File.directory?("#{deploy[:deploy_to]}/shared/config/")
     end
   end
